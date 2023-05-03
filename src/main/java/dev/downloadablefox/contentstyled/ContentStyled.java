@@ -1,7 +1,10 @@
 package dev.downloadablefox.contentstyled;
 
+import dev.downloadablefox.contentstyled.commands.DebugCommand;
+import dev.downloadablefox.contentstyled.events.PlayerJoinEvent;
 import org.quiltmc.loader.api.ModContainer;
 import org.quiltmc.qsl.base.api.entrypoint.ModInitializer;
+import org.quiltmc.qsl.command.api.CommandRegistrationCallback;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -11,6 +14,17 @@ public class ContentStyled implements ModInitializer {
 
 	@Override
 	public void onInitialize(ModContainer mod) {
-		LOGGER.info("Hello Quilt world from {}!", mod.metadata().name());
+		registerEvents();
+		registerCommands();
+	}
+
+	public void registerCommands() {
+		CommandRegistrationCallback.EVENT.register((dispatcher, context, environment) -> {
+			DebugCommand.register(dispatcher);
+		});
+	}
+
+	public void registerEvents() {
+		PlayerJoinEvent.register();
 	}
 }
